@@ -1,7 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-
 
 const app = express();
 
@@ -19,7 +17,7 @@ const posts = require('./routes/api/posts.js');
 
 app.use('/', posts);
 
-const port = process.env.MONGO_DB_PORT || 5000;
+const port = 5001;
 
 
 app.listen(port, () => console.log(`Backend Server running on : ${port}` ))
