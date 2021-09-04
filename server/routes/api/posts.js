@@ -36,8 +36,11 @@ router.delete('/:id', async (req,res) => {
 
 const loadPostCollection = async () => {
     const client = await mongodb.MongoClient.connect(`mongodb+srv://${username}:${password}${URL}`, {
-        useNewUrlParser: true
-    });
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true
+    }).then(()=> console.log('CLient info : ', client))
+    .catch(err => console.log(err));
     return client.db('userProfiles').collection('posts');
 }
 module.exports = router;
