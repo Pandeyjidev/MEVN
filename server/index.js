@@ -10,7 +10,7 @@ app.use(express.urlencoded({
   }));
 app.use(cors());
 
-const posts = require('./routes/api/posts.js');
+const posts = require('./routes/api/posts');
 
 app.use('/api/posts', posts);
 
