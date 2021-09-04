@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const mongodb = require('mongodb');
 require('dotenv').config();
 const router = express();
 
@@ -7,7 +7,7 @@ const username = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
 const URL = process.env.MONGO_DB_URL;
 
-console.log(`Server is running on ${process.env.MONGO_DB_PORT} :: username = ${process.env.MONGO_DB_USERNAME} :: password = ${process.env.MONGO_DB_PASSWORD} :: URL = ${process.env.MONGO_DB_URL}`);
+console.log(`username = ${process.env.MONGO_DB_USERNAME} :: password = ${process.env.MONGO_DB_PASSWORD} :: URL = ${process.env.MONGO_DB_URL}`);
 // Get Post
 router.get('/', async (req, res) => {
     const posts = await loadPostCollection();
@@ -26,10 +26,16 @@ router.post('/', async (req, res) => {
 })
 
 // Delete Post
+router.delete('/:id', async (req,res) => {
+    const posts = await loadPostCollection();
+    await posts.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
+
+    res.status(200).send()
+})
 
 
 const loadPostCollection = async () => {
-    const client = await MongoClient.connect(`mongodb+srv://${username}:${password}${URL}`, {
+    const client = await mongodb.MongoClient.connect(`mongodb+srv://${username}:${password}${URL}`, {
         useNewUrlParser: true
     });
     return client.db('userProfiles').collection('posts');
