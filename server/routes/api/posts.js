@@ -9,13 +9,13 @@ const URL = process.env.MONGO_DB_URL;
 
 console.log(`username = ${process.env.MONGO_DB_USERNAME} :: password = ${process.env.MONGO_DB_PASSWORD} :: URL = ${process.env.MONGO_DB_URL}`);
 // Get Post
-router.get('/api/posts', async (req, res) => {
+router.get('/', async (req, res) => {
     const posts = await loadPostCollection();
     res.send(await posts.find({}).toArray());
 });
 
 // Add Post
-router.post('/api/posts', async (req, res) => {
+router.post('/', async (req, res) => {
     const posts = await loadPostCollection();
     await posts.insertOne({
         text: req.body.text,
@@ -26,7 +26,7 @@ router.post('/api/posts', async (req, res) => {
 })
 
 // Delete Post
-router.delete('api/posts/:id', async (req,res) => {
+router.delete('/:id', async (req,res) => {
     const posts = await loadPostCollection();
     await posts.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
 
